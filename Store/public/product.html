@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Product</title>
+</head>
+<body>
+    <a href="/">Back</a>
+    <div id="product"></div>
+
+    <script>
+        async function load() {
+            const params = new URLSearchParams(location.search);
+            const id = params.get('id');
+            if (!id) return document.getElementById('product').innerText = 'Missing id';
+            const res = await fetch('/api/products/' + encodeURIComponent(id));
+            if (!res.ok) return document.getElementById('product').innerText = 'Product not found';
+            const p = await res.json();
+            document.getElementById('product').innerHTML = `
+            <h1>${p.name}</h1>
+            <img src="${p.image || '/images/placeholder.png'}" alt="" style="width:200px;height:200px;object-fit:cover">
+            <p>${p.description}</p>
+            <p>$${(p.price / 100).toFixed(2)}</p>
+            <p>Stock: ${p.stock}</p>
+            <button id="add">Add to cart</button>
+            <a href="/cart.html">View Cart</a>
+          `;
+            document.getElementById('add').onclick = () => {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const it = cart.find(x => x.id === p.id);
+                if (it) it.quantity++;
+                else cart.push({ id: p.id, quantity: 1 });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Added');
+            };
+        }
+
+        load();
+    </script>
+</body>
+</html>

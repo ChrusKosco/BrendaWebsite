@@ -1,0 +1,89 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MyShop - Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+            .product img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+
+            .product .info {
+                flex: 1;
+            }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        #cartCount {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+    <p>Your cart: <span id="cartCount">0</span> items — <a href="/cart.html">View Cart</a></p>
+    <div id="products"></div>
+
+    <script>
+        function loadCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const total = cart.reduce((s, it) => s + it.quantity, 0);
+            document.getElementById('cartCount').innerText = total;
+        }
+
+        async function loadProducts() {
+            const res = await fetch('/api/products');
+            const products = await res.json();
+            const container = document.getElementById('products');
+            container.innerHTML = products.map(p => `
+            <div class="product">
+              <img src="${p.image || '/images/placeholder.png'}" alt="${p.name}">
+              <div class="info">
+                <h3>${p.name}</h3>
+                <p>${p.description || ''}</p>
+                <p>$${(p.price / 100).toFixed(2)} — stock: ${p.stock}</p>
+              </div>
+              <div class="actions">
+                <button onclick="addToCart('${p.id}')">Add to cart</button>
+                <a href="/product.html?id=${encodeURIComponent(p.id)}">Details</a>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        function addToCart(id) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const item = cart.find(i => i.id === id);
+            if (item) item.quantity++;
+            else cart.push({ id, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCartCount();
+            alert('Added to cart');
+        }
+
+        loadProducts();
+        loadCartCount();
+    </script>
+</body>
+</html>

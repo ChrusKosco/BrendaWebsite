@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Cart</title>
+</head>
+<body>
+    <a href="/">Back to products</a>
+    <h1>Your Cart</h1>
+    <div id="cart"></div>
+    <button id="checkoutBtn">Checkout with Stripe</button>
+
+    <script>
+        async function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                document.getElementById('cart').innerText = 'Cart is empty';
+                return;
+            }
+
+            // fetch product details for each
+            const products = await fetch('/api/products').then(r => r.json());
+            const html = cart.map(it => {
+                const p = products.find(x => x.id === it.id);
+                if (!p) return '';
+                return `<div>
+              <strong>${p.name}</strong> — ${it.quantity} × $${(p.price / 100).toFixed(2)}
+              <button onclick="remove('${p.id}')">Remove</button>
+            </div>`;
+            }).join('');
+            document.getElementById('cart').innerHTML = html;
+        }
+
+        function remove(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = cart.filter(i => i.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        document.getElementById('checkoutBtn').addEventListener('click', async () => {
+            const items = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (items.length === 0) return alert('Cart empty');
+
+            const res = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items })
+            });
+            const data = await res.json();
+            if (data.url) {
+                // Redirect to Stripe
+                window.location.href = data.url;
+            } else {
+                alert('Error creating checkout session: ' + (data.error || 'unknown'));
+            }
+        });
+
+        renderCart();
+    </script>
+</body>
+</html>
