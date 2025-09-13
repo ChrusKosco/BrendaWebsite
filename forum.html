@@ -11,7 +11,7 @@
         }
 
         body {
-            background-image: url(background.png);
+            background-image: url(background.jpg);
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -67,22 +67,19 @@
     </style>
 </head>
 <body>
+    <h1 span style="color: gray;" class="tittle">
+        Brenda's Website
+    </h1>
+
+    <p>
+        By Brenda James
+    <p>
+        Pages
+    </p>
     <!--Pages-->
     <nav>
         <button class="buttons" onclick="document.location='index.html'">
             Home
-        </button>
-
-        <button class="buttons" onclick="document.location='games.html'">
-            Games
-        </button>
-
-        <button class="buttons" onclick="document.location='servers.html'">
-            Servers
-        </button>
-
-        <button class="buttons" onclick="document.location='tv.html'">
-            TV
         </button>
 
         <button class="buttons" onclick="document.location='store.html'">
@@ -93,8 +90,16 @@
             Forum
         </button>
 
+        <button class="buttons" onclick="document.location='tv.html'">
+            TV
+        </button>
+
         <button class="buttons" onclick="document.location='account.html'">
             Account
+        </button>
+
+        <button class="buttons" onclick="document.location='profile.html'">
+            Profile
         </button>
 
         <button class="buttons" onclick="document.location='aboutus.html'">
@@ -121,11 +126,11 @@
             function loadTopics() {
                 const topics = JSON.parse(localStorage.getItem("topics"));
                 document.getElementById("topicsContainer").innerHTML = topics.map(t => `
-                        <div class="topic" onclick="openTopic(${t.id})">
-                            <h3>${t.name}</h3>
-                            <p>${t.threads ? t.threads.length : 0} threads</p>
-                        </div>
-                    `).join("");
+                                <div class="topic" onclick="openTopic(${t.id})">
+                                    <h3>${t.name}</h3>
+                                    <p>${t.threads ? t.threads.length : 0} threads</p>
+                                </div>
+                            `).join("");
             }
 
             function createTopic() {

@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Threads</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- External stylesheet (optional) -->
+    <link rel="stylesheet" href="styles/index.css">
+
     <style>
-        <link rel="stylesheet" href="styles/index.css" >
-        <style >
         * {
+            box-sizing: border-box;
             color: gray;
         }
 
         body {
-            background-image: url(background.png);
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(background.jpg);
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
         }
+
         .container {
-            width: 80%;
+            width: 90%;
+            max-width: 1200px;
             margin: 20px auto;
         }
 
@@ -39,6 +46,30 @@
                     text-decoration: underline;
                 }
 
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+        }
+
+            nav button {
+                flex: 1 1 auto;
+                min-width: 120px;
+                margin: 5px;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                background: #0066cc;
+                color: white;
+            }
+
+                nav button:hover {
+                    background: #004999;
+                }
+
         .thread {
             padding: 15px;
             margin: 10px 0;
@@ -52,8 +83,8 @@
             }
 
         button {
-            padding: 5px 10px;
-            margin: 2px;
+            padding: 8px 15px;
+            margin: 5px 0;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -64,6 +95,19 @@
             button:hover {
                 background: #004999;
             }
+
+        /* 🔹 Responsive tweaks */
+        @media (max-width: 768px) {
+            header {
+                font-size: 14px;
+                padding: 15px;
+            }
+
+            nav button {
+                flex: 1 1 100%;
+                min-width: unset;
+            }
+        }
     </style>
 </head>
 <body>
@@ -71,18 +115,6 @@
     <nav>
         <button class="buttons" onclick="document.location='index.html'">
             Home
-        </button>
-
-        <button class="buttons" onclick="document.location='games.html'">
-            Games
-        </button>
-
-        <button class="buttons" onclick="document.location='servers.html'">
-            Servers
-        </button>
-
-        <button class="buttons" onclick="document.location='tv.html'">
-            TV
         </button>
 
         <button class="buttons" onclick="document.location='store.html'">
@@ -93,8 +125,16 @@
             Forum
         </button>
 
+        <button class="buttons" onclick="document.location='tv.html'">
+            TV
+        </button>
+
         <button class="buttons" onclick="document.location='account.html'">
             Account
+        </button>
+
+        <button class="buttons" onclick="document.location='profile.html'">
+            Profile
         </button>
 
         <button class="buttons" onclick="document.location='aboutus.html'">
@@ -125,11 +165,11 @@
             const topics = JSON.parse(localStorage.getItem("topics"));
             const topic = topics.find(t => t.id === currentTopic);
             document.getElementById("threadsContainer").innerHTML = (topic.threads || []).map((th, i) => `
-                <div class="thread" onclick="openThread(${i})">
-                    <h3>${th.title}</h3>
-                    <p>by <span style="color:blue;cursor:pointer;" onclick="viewUser(event,'${th.author}')">${th.authorDisplay}</span></p>
-                </div>
-            `).join("");
+                        <div class="thread" onclick="openThread(${i})">
+                            <h3>${th.title}</h3>
+                            <p>by <span style="color:blue;cursor:pointer;" onclick="viewUser(event,'${th.author}')">${th.authorDisplay}</span></p>
+                        </div>
+                    `).join("");
         }
 
         function createThread() {

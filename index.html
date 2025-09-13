@@ -52,13 +52,42 @@
             Account
         </button>
 
+        <button class="buttons" onclick="document.location='profile.html'">
+            Profile
+        </button>
+
         <button class="buttons" onclick="document.location='aboutus.html'">
             About Us
         </button>
     </nav>
     <!--Content-->
     <p>
+        <h2 style="text-align:center;">Welcome Cuzin</h2>
 
+        Login and Password<br />
+        <form id="loginForm">
+            <input type="text" id="loginUsername" placeholder="Username" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <script>
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            document.getElementById("loginForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const username = document.getElementById("loginUsername").value;
+                const password = document.getElementById("loginPassword").value;
+                const user = users.find(u => u.username === username && u.password === password);
+                if (user) {
+                    localStorage.setItem("loggedInUser", JSON.stringify(user));
+                    alert("Login successful!");
+                    window.location.href = "profile.html";
+                } else {
+                    alert("Invalid username or password!");
+                }
+            });
+        </script>
     </p>
 </body>
 </html>
