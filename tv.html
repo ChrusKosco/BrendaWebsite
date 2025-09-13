@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV</title>
+    <link rel="stylesheet" href="styles/index.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            background-image: url(background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .tv-program {
+            display: flex;
+            flex-direction: column;
+            width: 600px;
+            margin: auto;
+        }
+
+        .channel {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .channel-name {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .program {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+            .program:hover {
+                background: rgba(0,0,0,0.05);
+            }
+
+        .program-time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .program-title {
+            font-weight: bold;
+        }
+
+        .screen {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .selected-program {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .video-container {
+            margin-top: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="tittle">Server List</h1>
+    <p>By Hardcore Gaming</p>
+
+    <!-- Navigation -->
+    <nav>
+        <button onclick="document.location='index.html'">Home</button>
+        <button onclick="document.location='games.html'">Games</button>
+        <button onclick="document.location='servers.html'">Servers</button>
+        <button onclick="document.location='tv.html'">TV</button>
+        <button onclick="document.location='store.html'">Store</button>
+        <button onclick="document.location='forum.html'">Forum</button>
+        <button onclick="document.location='profile.html'">Profile</button>
+        <button onclick="document.location='aboutus.html'">About Us</button>
+    </nav>
+
+    <h2>Public Game Servers</h2>
+
+    <!-- Video Player -->
+    <div class="video-container">
+        <h2>Program Video</h2>
+        <iframe id="programVideo" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <!-- TV Program Guide -->
+    <div class="tv-program" id="tvProgram"></div>
+
+    <!-- Selected Program Details -->
+    <div class="screen">
+        <div class="selected-program">Selected Program</div>
+        <div id="selectedProgramDetails"></div>
+    </div>
+
+    <script>
+        const programData = [
+            {
+                channel: "Channel 1",
+                programs: [
+                    { time: "10:00 AM - 11:00 AM", title: "Morning Show", details: "A fun morning show featuring games and guests.", videoId: "vUAih3c2vuI" },
+                    { time: "11:00 AM - 12:30 PM", title: "Cooking Masterclass", details: "Learn advanced cooking techniques from top chefs.", videoId: "md2BullvCdE" }
+                ],
+                commercials: [
+                    { title: "Commercial 1", videoId: "vweLYSfEMZY" },
+                    { title: "Commercial 2", videoId: "xqCHEvlqrpU" }
+                ]
+            },
+            {
+                channel: "Channel 2",
+                programs: [
+                    { time: "10:00 AM - 11:00 AM", title: "LF4 DeadAir", details: "Gameplay program.", videoId: "vUAih3c2vuI" },
+                    { time: "11:00 AM - 12:00 PM", title: "LF4 DeadToll", details: "Gameplay program.", videoId: "md2BullvCdE" },
+                    { time: "12:00 PM - 1:00 PM", title: "LF4 BloodHarvest", details: "Gameplay program.", videoId: "pPZN3JSDQR8" }
+                ],
+                commercials: [
+                    { title: "My New Game", videoId: "vweLYSfEMZY" },
+                    { title: "Minecraft Server", videoId: "xqCHEvlqrpU" }
+                ]
+            }
+        ];
+
+        let currentChannelIndex = 0;
+        let currentProgramIndex = 0;
+        let currentCommercialIndex = 0;
+        let showingCommercial = false;
+
+        function generateProgramGuide(data) {
+            const tvProgram = document.getElementById("tvProgram");
+            tvProgram.innerHTML = "";
+
+            data.forEach(channel => {
+                const channelDiv = document.createElement("div");
+                channelDiv.classList.add("channel");
+
+                const channelName = document.createElement("span");
+                channelName.classList.add("channel-name");
+                channelName.textContent = channel.channel;
+                channelDiv.appendChild(channelName);
+
+                channel.programs.forEach(program => {
+                    const programDiv = document.createElement("div");
+                    programDiv.classList.add("program");
+                    programDiv.innerHTML = `<span class="program-time">${program.time}</span><span class="program-title">${program.title}</span>`;
+                    programDiv.onclick = () => showProgramDetails(program);
+                    channelDiv.appendChild(programDiv);
+                });
+
+                tvProgram.appendChild(channelDiv);
+            });
+        }
+
+        function showProgramDetails(program) {
+            document.getElementById("selectedProgramDetails").innerHTML =
+                `<strong>Time:</strong> ${program.time}<br><strong>Title:</strong> ${program.title}<br><strong>Details:</strong> ${program.details}`;
+            document.getElementById("programVideo").src = `https://www.youtube.com/embed/${program.videoId}?autoplay=1`;
+            showingCommercial = false;
+        }
+
+        function showCommercial(channel) {
+            const commercial = channel.commercials[currentCommercialIndex % channel.commercials.length];
+            document.getElementById("programVideo").src = `https://www.youtube.com/embed/${commercial.videoId}?autoplay=1`;
+            document.getElementById("selectedProgramDetails").innerHTML = `<strong>Commercial:</strong> ${commercial.title}`;
+            currentCommercialIndex++;
+            showingCommercial = true;
+        }
+
+        function autoPlay() {
+            const channel = programData[currentChannelIndex];
+            if (!showingCommercial) {
+                const program = channel.programs[currentProgramIndex % channel.programs.length];
+                showProgramDetails(program);
+                currentProgramIndex++;
+                showingCommercial = true;
+            } else {
+                showCommercial(channel);
+                showingCommercial = false;
+                if (currentProgramIndex >= channel.programs.length) {
+                    currentProgramIndex = 0;
+                    currentChannelIndex = (currentChannelIndex + 1) % programData.length;
+                }
+            }
+        }
+
+        generateProgramGuide(programData);
+        setInterval(autoPlay, 60000); // autoplay every 60s
+    </script>
+</body>
+</html>

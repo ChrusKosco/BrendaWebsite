@@ -1,0 +1,63 @@
+.tittle {
+    text-align: center;
+    color: black;
+}
+
+.buttons {
+    background-color: tan;
+    color: black;
+    font-weight: bold;
+    border: none;
+    height: 30px;
+    width: 100px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 25px;
+    transition: opacity 0.15s;
+}
+.buttons:hover {
+    opacity: 0.8;
+    background-color: gray;
+}
+
+.buttons:active {
+    opacity: 0.5;
+}
+
+    .subscribe-button {
+    background-color: rgb(255 0 0);
+    color: black;
+    border: none;
+    height: 50px;
+    width: 100px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: opacity 0.15s;
+}
+
+* {
+    color: gray;
+    box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.skills {
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+}
+
+.LS {width: 0%; background-color: #04AA6D;}
+.FE {width: 0%; background-color: #2196F3;}
+.ME {width: 0%; background-color: #f44336;}
+.OW {width: 0%; background-color: #808080;}
+.SG {width: 0%; background-color: #04AA6D;}
+.IA {width: 0%; background-color: #2196F3;}
+.MP {width: 0%; background-color: #f44336;}
+.SV {width: 0%; background-color: #808080;}

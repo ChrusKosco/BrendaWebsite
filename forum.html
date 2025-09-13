@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <style>
+        * {
+            color: gray;
+        }
+
+        body {
+            background-image: url(background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+            header a {
+                color: white;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+
+                header a:hover {
+                    text-decoration: underline;
+                }
+
+        .topic {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .topic:hover {
+                background: #eee;
+            }
+
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #0066cc;
+            color: white;
+        }
+
+            button:hover {
+                background: #004999;
+            }
+    </style>
+</head>
+<body>
+    <!--Pages-->
+    <nav>
+        <button class="buttons" onclick="document.location='index.html'">
+            Home
+        </button>
+
+        <button class="buttons" onclick="document.location='games.html'">
+            Games
+        </button>
+
+        <button class="buttons" onclick="document.location='servers.html'">
+            Servers
+        </button>
+
+        <button class="buttons" onclick="document.location='tv.html'">
+            TV
+        </button>
+
+        <button class="buttons" onclick="document.location='store.html'">
+            Store
+        </button>
+
+        <button class="buttons" onclick="document.location='forum.html'">
+            Forum
+        </button>
+
+        <button class="buttons" onclick="document.location='account.html'">
+            Account
+        </button>
+
+        <button class="buttons" onclick="document.location='aboutus.html'">
+            About Us
+        </button>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>Topics</h1>
+            <a href="profile.html">Profile</a> |
+            <a href="#" onclick="logout()">Logout</a>
+        </header>
+
+        <div id="topicsContainer"></div>
+
+        <button onclick="createTopic()">Create New Topic</button>
+
+        <script>
+            const user = JSON.parse(localStorage.getItem("loggedInUser"));
+            if (!user) { alert("Please login"); window.location.href = "accounts.html"; }
+
+            if (!localStorage.getItem("topics")) localStorage.setItem("topics", JSON.stringify([]));
+
+            function loadTopics() {
+                const topics = JSON.parse(localStorage.getItem("topics"));
+                document.getElementById("topicsContainer").innerHTML = topics.map(t => `
+                        <div class="topic" onclick="openTopic(${t.id})">
+                            <h3>${t.name}</h3>
+                            <p>${t.threads ? t.threads.length : 0} threads</p>
+                        </div>
+                    `).join("");
+            }
+
+            function createTopic() {
+                let name = prompt("Topic Name:");
+                if (!name) return;
+                let topics = JSON.parse(localStorage.getItem("topics"));
+                topics.push({ id: Date.now(), name, threads: [] });
+                localStorage.setItem("topics", JSON.stringify(topics));
+                loadTopics();
+            }
+
+            function openTopic(id) {
+                localStorage.setItem("currentTopic", JSON.stringify(id));
+                window.location.href = "threads.html";
+            }
+
+            function logout() {
+                localStorage.removeItem("loggedInUser");
+                window.location.href = "index.html";
+            }
+
+            loadTopics();
+        </script>
+    </div>
+</body>
+</html>

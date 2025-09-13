@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Chris Cunningham">
+    <meta name="description" content="Brenda's Store">
+    <meta charset="UTF-8">
+    <title>Store</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/games.css">
+    <style>
+        /* Reset default margin and padding
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }*/
+
+        body {
+            background-image: url(../background.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Style for the card container */
+        .card {
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            /* Style for the card image */
+            .card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+        /* Style for the card information */
+        .card-info {
+            padding: 5px 0;
+        }
+
+            .card-info h2 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .card-info p {
+                font-size: 1em;
+                color: #333;
+            }
+
+        ul {
+            display: inline;
+            list-style-type: none;
+            margin: 0px;
+            padding: 0;
+            float: left;
+        }
+
+        li {
+            float: left;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 span style="color: gray;" class="tittle">
+        Brenda's Store
+    </h1>
+
+    <p>
+        Pages
+    </p>
+    <!--Pages-->
+    <nav>
+        <button class="buttons" onclick="document.location='../index.html'">
+            Home
+        </button>
+
+        <button class="buttons" onclick="document.location='../store.html'">
+            Store
+        </button>
+
+        <button class="buttons" onclick="document.location='../forum.html'">
+            Forum
+        </button>
+
+        <button class="buttons" onclick="document.location='../tv.html'">
+            TV
+        </button>
+
+        <button class="buttons" onclick="document.location='../account.html'">
+            Account
+        </button>
+
+        <button class="buttons" onclick="document.location='../aboutus.html'">
+            About Us
+        </button>
+    </nav>
+
+    <p>
+        Catagories
+    </p>
+    <!--Catagories-->
+    <nav>
+        <button class="buttons" onclick="document.location='food.html'">
+            Food
+        </button>
+
+        <button class="buttons" onclick="document.location='crafts.html'">
+            Crafts
+        </button>
+    </nav>
+    <h2>Food</h2>
+    <ul>
+        <li>
+            <div class="card">
+                <img src="TradingCards/FrontLifestyleCardTemplate.png" alt="Card Image">
+                <div class="card-info">
+                    <h2>Bread</h2>
+                    <p>Description</p>
+                    <p>Other details...</p>
+                </div>
+            </div>
+
+        <li>
+            <div class="card">
+                <img src="TradingCards/FrontFightEncounterCardTemplate.png" alt="Card Image">
+                <div class="card-info">
+                    <h2>Cookies</h2>
+                    <p>Description</p>
+                    <p>Other details...</p>
+                </div>
+            </div>
+
+        <li>
+            <div class="card">
+                <img src="TradingCards/FrontMedevialEmpireCARD.png" alt="Card Image">
+                <div class="card-info">
+                    <h2>Frybread</h2>
+                    <p>Description</p>
+                    <p>Other details...</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
